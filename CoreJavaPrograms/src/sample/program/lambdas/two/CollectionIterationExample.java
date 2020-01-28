@@ -26,6 +26,7 @@ public class CollectionIterationExample {
 		
 		System.out.println("\n Java 8 forEach :");
 		people.forEach(p->System.out.println(p));
+		
 		System.out.println("\n Java 8 forEach :");
 		people.forEach(System.out::println);
 		

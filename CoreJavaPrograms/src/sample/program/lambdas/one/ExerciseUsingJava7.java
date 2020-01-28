@@ -15,6 +15,7 @@ public class ExerciseUsingJava7 {
 				new Person("Niharika","Singh", 25),
 				new Person("Chetan","Parate", 27));
 		
+		
 		//Sort list by first name
 		Collections.sort(people,new Comparator<Person>() {
 			@Override

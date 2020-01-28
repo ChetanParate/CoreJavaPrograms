@@ -16,6 +16,9 @@ public class ExerciseUsingJava8 {
 
 		// Sort list by first name
 		Collections.sort(people, (p1, p2)-> p1.getFirstName().compareTo(p2.getFirstName()));
+		
+		people.forEach(p -> System.out.println(p));
+		people.forEach(System.out::println);
 
 		// print all elements
 		System.out.println("Printing all Persons");
@@ -28,7 +31,9 @@ public class ExerciseUsingJava8 {
 		// Print only last name with S
 		System.out.println("Printing Persons lastName with S");
 		printConditionally(people, p-> p.getLastName().startsWith("S") );
-
+		
+		long count = people.stream().filter(p -> p.getFirstName().startsWith("C")).count();
+			System.out.println(count);		
 	}
 
 	private static void printConditionally(List<Person> people, Predicate<Person> predicate) {

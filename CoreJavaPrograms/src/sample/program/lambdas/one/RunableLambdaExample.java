@@ -4,18 +4,16 @@ public class RunableLambdaExample {
 
 	public static void main(String[] args) {
 		Thread myThread = new Thread(new Runnable() {
-			
 			@Override
 			public void run() {
-				System.out.println("Printed inside Runnable");
-				
+				System.out.println("Printed inside Runnable");	
 			}
 		});
 		
-		myThread.run();
+		myThread.start();
 		
 		Thread myLambdaThread = new Thread(()->System.out.println("Printed inside Lambda Runnable"));
-		myLambdaThread.run();
+		myLambdaThread.start();
 
 	}
 
