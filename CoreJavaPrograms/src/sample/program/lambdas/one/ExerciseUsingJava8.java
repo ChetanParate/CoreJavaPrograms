@@ -32,7 +32,7 @@ public class ExerciseUsingJava8 {
 		System.out.println("Printing Persons lastName with S");
 		printConditionally(people, p-> p.getLastName().startsWith("S") );
 		
-		long count = people.stream().filter(p -> p.getFirstName().startsWith("C")).count();
+		long count = people.stream().filter(p -> p.getFirstName().contains("xyz")).count();
 			System.out.println(count);		
 	}
 
