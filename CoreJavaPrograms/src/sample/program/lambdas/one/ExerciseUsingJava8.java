@@ -3,7 +3,9 @@ package sample.program.lambdas.one;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 
 
@@ -31,6 +33,14 @@ public class ExerciseUsingJava8 {
 		// Print only last name with S
 		System.out.println("Printing Persons lastName with S");
 		printConditionally(people, p-> p.getLastName().startsWith("S") );
+		
+		Stream.of("bus", "car", "bicycle", "flight", "train").limit(3).forEach(System.out::println);
+        
+		people.stream().limit(3).forEach(System.out::println);
+        
+        people.stream().skip(2).forEach(System.out::println);
+		System.out.println("--------------------------------");
+        Stream.generate(UUID::randomUUID).limit(10).forEach(System.out::println);
 		
 		long count = people.stream().filter(p -> p.getFirstName().contains("xyz")).count();
 			System.out.println(count);		
