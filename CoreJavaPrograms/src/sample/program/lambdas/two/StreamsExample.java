@@ -24,6 +24,9 @@ public class StreamsExample {
 		Person per = people.stream().filter(p -> p.getFirstName().contains("C")).findFirst().get();
 		System.out.println(per);
 		
+		Collections.sort(people, (p1,p2)-> -p2.getFirstName().compareTo(p1.getFirstName()));
+		people.forEach(p -> System.out.println(p));
+		
 		long count = people.stream().filter(p->p.getFirstName().startsWith("C")).count();
 		System.out.println(count);
 		

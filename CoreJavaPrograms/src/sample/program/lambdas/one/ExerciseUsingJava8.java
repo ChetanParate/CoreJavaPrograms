@@ -5,10 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-
+ 
 public class ExerciseUsingJava8 {
 
 	public static void main(String[] args) {
@@ -43,14 +44,20 @@ public class ExerciseUsingJava8 {
         Stream.generate(UUID::randomUUID).limit(10).forEach(System.out::println);
 		
 		long count = people.stream().filter(p -> p.getFirstName().contains("xyz")).count();
-			System.out.println(count);		
+			System.out.println(count);
+			
+		Stream.of("one", "two", "three", "four")
+			  .filter(e -> e.length() > 3)
+			  .peek(e -> System.out.println("Filtered value: " + e))
+			  .map(String::toUpperCase)
+			  .peek(e -> System.out.println("Mapped value: " + e))
+			  .collect(Collectors.toList());
 	}
 
 	private static void printConditionally(List<Person> people, Predicate<Person> predicate) {
 		for (Person p : people) {
 			if (predicate.test(p)) {
 				System.out.println(p);
-
 			}
 		}
 
