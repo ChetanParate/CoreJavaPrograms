@@ -1,0 +1,97 @@
+{
+  "executionRoleArn": "",
+  "containerDefinitions": [
+    {
+      "name": "Demo",
+      "image": "<IMAGE1_NAME>",
+      "cpu": 992,
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/demo",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "demo"
+        }
+      },"ulimits": [
+        {
+          "softLimit": 2048,
+          "hardLimit": 1048576,
+          "name": "nofile"
+        }
+      ],
+      "portMappings": [
+        {
+          "hostPort": 8443,
+          "protocol": "tcp",
+          "containerPort": 8443
+        }
+      ],
+      "environment": [
+        {
+          "name": "ENV",
+          "value": "qa1"
+        },
+        {
+          "name": "AWS_XRAY_TRACING_NAME",
+          "value": "<demo>"
+        },{
+          "name": "IMAGE_TAG",
+          "value": "<IMAGE1_NAME>"
+        }
+      ]
+    },
+    {
+      "name": "xray-daemon",
+      "image": "<>:xray-latest",
+      "cpu": 32,
+      "memory": 128,
+      "portMappings": [
+        {
+          "containerPort": 2000,
+          "protocol": "udp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "demo"
+        }
+      },
+      "essential": true,
+      "entryPoint": [
+        "/usr/bin/xray",
+        "-b",
+        "0.0.0.0:2000",
+        "-o"
+      ],
+      "mountPoints": [],
+      "volumesFrom": []
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "Tags": [
+    {
+      "Key": "APPACCESS",
+      "Value": ""
+    },
+    {
+      "Key": "GROUP",
+      "Value": ""
+    },
+    {
+      "Key": "COSTCENTER",
+      "Value": "38089"
+    }
+  ],
+  "taskRoleArn": "",
+  "networkMode": "awsvpc",
+  "cpu": "1024",
+  "memory": "2048",
+  "family": ""
+}

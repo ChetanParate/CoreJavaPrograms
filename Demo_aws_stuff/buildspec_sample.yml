@@ -1,0 +1,44 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region us-east-2 --no-include-email)
+      - REPOSITORY_URI=873806072084.dkr.ecr.us-east-2.amazonaws.com/shconline-checkout-crsp-service
+      - echo Source Branch.... $CODEBUILD_RESOLVED_SOURCE_VERSION
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo Branch..................... $BRANCH
+      - IMAGE_TAG=master-$COMMIT_HASH
+      - echo Image Tag............... $IMAGE_TAG
+
+  build:
+    commands:
+      - echo started the build
+      - mvn clean install -U
+      - mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+      - echo Building the Docker image...
+      - docker build -f Dockerfile-QA1 -t $REPOSITORY_URI:$IMAGE_TAG .
+  post_build:
+    commands:
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
+      #- echo '\n'COMMIT_HASH=$COMMIT_HASH >> release.properties
+artifacts:
+  files:
+    - imageDetail.json
+    - appspec-QA1.yaml
+    - taskdef-QA1.json
+    - appspec_prod.yaml
+    - taskdef_prod.json
+    - appspec_pilot.yaml
+    - taskdef_pilot.json
+    
+cache:
+  paths:
+    - '/root/.m2/**/*'

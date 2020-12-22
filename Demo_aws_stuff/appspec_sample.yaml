@@ -1,0 +1,17 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION>
+        LoadBalancerInfo:
+          ContainerName: "shconline-checkout-crsp-qa1"
+          ContainerPort: 8443
+        # Optional properties
+        PlatformVersion: "1.4.0"
+        NetworkConfiguration:
+          AwsvpcConfiguration:
+            Subnets: ["subnet-060f5523002453ffa","subnet-0c208507c52528466"]
+            SecurityGroups: ["sg-05aef1f2117e6dd42"]
+            AssignPublicIp: "ENABLED"
+           

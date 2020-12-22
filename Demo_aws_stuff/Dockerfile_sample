@@ -1,0 +1,33 @@
+FROM 873806072084.dkr.ecr.us-east-2.amazonaws.com/adoptopenjdk:x86_64-ubuntu-jre-11.0.9_11-11-10-20
+
+USER root
+#RUN yum update -y
+RUN set -eux; \
+apt-get update; \
+apt-get install -y --no-install-recommends \
+bzip2 \
+unzip \
+xz-utils \
+ca-certificates p11-kit \
+fontconfig libfreetype6 \
+; \
+rm -rf /var/lib/apt/lists/*
+
+VOLUME /tmp
+
+ARG DEPENDENCY=target/dependency
+ADD ${DEPENDENCY}/BOOT-INF/classes/qa/crsp_aws_qa.jks $JAVA_HOME/lib/security/
+ADD ${DEPENDENCY}/BOOT-INF/classes/qa/CRSP-QA_Signed_Public.cer $JAVA_HOME/lib/security/
+ADD ${DEPENDENCY}/BOOT-INF/classes/qa/cacerts $JAVA_HOME/lib/security/
+ADD ${DEPENDENCY}/BOOT-INF/classes/qa/crsp_aws_qa.jks /app/
+ADD ${DEPENDENCY}/BOOT-INF/classes/qa/CRSP-QA_Signed_Public.cer /app/
+
+COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY ${DEPENDENCY}/META-INF /app/META-INF
+COPY ${DEPENDENCY}/BOOT-INF/classes /app
+
+RUN \
+    cd $JAVA_HOME/lib/security \
+    && keytool -importcert -file CRSP-QA_Signed_Public.cer -alias CRSP-QA_Signed_Public.cer -cacerts -storepass changeit -noprompt
+
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Djava.net.preferIPv4Stack=true", "-cp","app:app/lib/*","com.shc.ecom.CRSPServiceApplication"]
