@@ -23,5 +23,4 @@ public class Challenge02TwoSum {
 		}
 		return new int[]{-1,-1};
 	}
-
 }

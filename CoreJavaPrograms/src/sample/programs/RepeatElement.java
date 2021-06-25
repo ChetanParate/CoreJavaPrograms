@@ -41,7 +41,7 @@ public class RepeatElement {
         Set<Entry<Integer, Integer>> enterySet = numMap.entrySet();
         for(Entry<Integer, Integer> entry : enterySet){
         	if(entry.getValue()>1){
-        		System.out.println("Duplicate Elemennt :"+entry.getKey());
+        		System.out.println("Duplicate Elemennt :"+entry.getKey()+" "+entry.getValue());
         	}
         }
     }    

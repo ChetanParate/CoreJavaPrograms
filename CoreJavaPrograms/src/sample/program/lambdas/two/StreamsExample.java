@@ -51,6 +51,8 @@ public class StreamsExample {
 		number.stream().map(x->x*x).forEach(y->System.out.println(y));
 		int even = number.stream().filter(x->x%2==0).reduce(0,(ans,i)-> ans+i);
 		System.out.println(even);
+		String nameList = names.stream().reduce(" ",(a,b)->a+","+b);
+		System.out.println(nameList);
 		
 		String str="tI saw a ysub yad";
 		System.out.println("  Reverse form : \n\t\t "+Arrays.asList(str.split("\\s+")).stream().map((s)->new StringBuffer(s).reverse()+" ").collect(Collectors.joining(" "))  );

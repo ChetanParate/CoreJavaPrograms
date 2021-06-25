@@ -18,7 +18,7 @@ public class XDisplay {
 	            } else {
 	                System.out.print(" ");
 	            }
-	        }
+	        } 
 	        System.out.println();
 	    }
 	}
